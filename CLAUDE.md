@@ -11,10 +11,12 @@ Casos de uso principales (en orden de frecuencia esperada):
 
 ## Herramientas disponibles
 
-- **`n8n-mcp`** (https://github.com/czlonkowski/n8n-mcp, clonado en `./n8n-mcp`): servidor MCP que expone ~2,131 nodos de n8n (core + comunitarios) con su documentación, propiedades y operaciones, y permite leer/crear/editar workflows directamente en la instancia de n8n conectada.
-- **`n8n-skills`** (https://github.com/czlonkowski/n8n-skills, clonado en `./n8n-skills`): 14 skills para Claude Code que enseñan patrones de calidad productiva en n8n (sintaxis de expresiones, patrones de workflow, manejo de errores, sub-workflows, agentes IA, self-hosting, etc.). Se activan automáticamente según el contexto de la consulta.
+- **`n8n-mcp`** (https://github.com/czlonkowski/n8n-mcp, git submodule en `./n8n-mcp`): servidor MCP que expone ~2,131 nodos de n8n (core + comunitarios) con su documentación, propiedades y operaciones, y permite leer/crear/editar workflows directamente en la instancia de n8n conectada.
+- **`n8n-skills`** (https://github.com/czlonkowski/n8n-skills, git submodule en `./n8n-skills`): 14 skills para Claude Code que enseñan patrones de calidad productiva en n8n (sintaxis de expresiones, patrones de workflow, manejo de errores, sub-workflows, agentes IA, self-hosting, etc.). Se activan automáticamente según el contexto de la consulta.
 
-El servidor MCP se ejecuta vía **Docker** (no npx, porque esta máquina no tiene Node.js/npm instalado), usando la imagen `ghcr.io/czlonkowski/n8n-mcp:latest`. La configuración vive en `.mcp.json` (raíz del proyecto) y referencia `N8N_API_URL`/`N8N_API_KEY` sin valores embebidos — Docker los toma del entorno del proceso que lo invoca. Los hooks de `n8n-skills` (recordatorios proactivos + skill de enrutamiento) están registrados en `.claude/settings.json`, con las rutas de `${CLAUDE_PLUGIN_ROOT}` sustituidas por la ruta absoluta a `./n8n-skills` (no se instaló como plugin).
+El servidor MCP se ejecuta vía **Docker** (no npx, porque esta máquina no tiene Node.js/npm instalado), usando la imagen `ghcr.io/czlonkowski/n8n-mcp:latest`. La configuración vive en `.mcp.json` (raíz del proyecto) y referencia `N8N_API_URL`/`N8N_API_KEY` sin valores embebidos — Docker los toma del entorno del proceso que lo invoca. Los hooks de `n8n-skills` (recordatorios proactivos + skill de enrutamiento) están registrados en `.claude/settings.json`, usando la variable portable `${CLAUDE_PROJECT_DIR}` en vez de rutas absolutas, para que funcionen sin cambios en cualquier máquina donde se clone el repo.
+
+Este proyecto vive en GitHub como repo privado: `git@github.com:ErikTurciosFC/programador-n8n-assistent.git`. Al clonarlo hay que usar `git clone --recurse-submodules` (o `git submodule update --init --recursive` después de un clone normal) para traer `n8n-mcp` y `n8n-skills`.
 
 Ver sección "Estado de instalación" para lo que falta.
 
