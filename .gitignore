@@ -1,0 +1,5 @@
+# Secretos locales (API key de n8n Cloud) — nunca subir
+.claude/settings.local.json
+
+# macOS
+.DS_Store
